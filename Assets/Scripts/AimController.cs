@@ -13,6 +13,8 @@ public class AimController : Singleton<AimController>
     private float newAngleX;
     private float newAngleY;
 
+    [SerializeField] GameObject shootFX;
+
     void FixedUpdate()
     {
         Vector3 direction = Vector3.down * joystick.Vertical * 1.5f + Vector3.right * joystick.Horizontal * 1.5f;
@@ -29,12 +31,16 @@ public class AimController : Singleton<AimController>
 
                 if (Input.GetMouseButtonUp(0))
                 {
+                    Instantiate(shootFX, hit.point, Quaternion.identity);
                     enemy.GetComponent<Animator>().SetBool("Dead", true);
+                    enemy.enabled = false;
+                    GameManager.CloseZoom?.Invoke();
                 }
             }
 
             if(hit.collider!=null && Input.GetMouseButtonUp(0))
             {
+                Instantiate(shootFX, hit.point, Quaternion.identity);
                 GameManager.CloseZoom?.Invoke();
             }
         }

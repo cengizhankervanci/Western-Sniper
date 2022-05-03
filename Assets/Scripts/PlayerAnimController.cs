@@ -4,15 +4,27 @@ using UnityEngine;
 
 public class PlayerAnimController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] Animator playerAnim = null;
+
+    private void GetUp()
     {
-        
+        playerAnim.SetBool("Up", true);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void StandAgain()
     {
-        
+        playerAnim.SetBool("Up", false);
+    }
+
+    private void OnEnable()
+    {
+        GameManager.CloseZoom += StandAgain;
+        GameManager.OpenZoom += GetUp;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.CloseZoom -= StandAgain;
+        GameManager.OpenZoom -= GetUp;
     }
 }

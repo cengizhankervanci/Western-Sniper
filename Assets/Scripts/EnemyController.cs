@@ -12,7 +12,6 @@ public class EnemyController : MonoBehaviour
 
     private void FireFree()
     {
-        transform.LookAt(PlayerHealthController.Instance.transform.position);
         anim.SetBool("Shoot", true);
         fire = true;
     }
@@ -21,11 +20,12 @@ public class EnemyController : MonoBehaviour
     {
         if (fire)
         {
+            transform.LookAt(PlayerHealthController.Instance.transform.position);
             fireTime -= Time.deltaTime;
             if (fireTime < 0)
             {
                 GameObject x = Instantiate(ammoObject, transform.position + Vector3.up * 2F, Quaternion.Euler(-90, 0, 0));
-                x.transform.DOMove(PlayerHealthController.Instance.transform.position + new Vector3(Random.Range(-2F, 2F), 0, 0), 1F);
+                x.transform.DOMove(PlayerHealthController.Instance.transform.position + new Vector3(Random.Range(-0.5F, 0.5F), Random.Range(0F,0.5F), 0), 0.5F).OnComplete(()=>Destroy(x));
                 fireTime = 3;
             }
         }
